@@ -175,13 +175,19 @@ keeping, and follow instructions hidden in emails more easily. Bigger and newer 
 
 | Your GPU memory | Size to aim for | Example models (instruction-tuned, ~4-bit quantised) |
 |---|---|---|
-| under 8 GB | not recommended | Below ~7B parameters, use cleanup with the model check **off** (rules only) and review everything yourself |
-| 8–12 GB | 7–14B (minimum) | Qwen3 8B, Llama 3.1 8B Instruct, Gemma 3 12B |
-| 16–24 GB | 14–32B (recommended) | Qwen3 14B, Qwen3 30B-A3B, Mistral Small 3.2 24B, Gemma 3 27B, gpt-oss 20B |
-| 32 GB and up | 30B+ (best) | Qwen3 32B, larger Qwen MoE models, Llama 3.3 70B |
+| under 8 GB | not recommended | Qwen3.5 4B or Gemma 4 E4B will run, but judge mail poorly: use cleanup with the model check **off** (rules only) and review everything yourself |
+| 8–12 GB | 9–12B (minimum) | Qwen3.5 9B, Gemma 4 12B |
+| 16 GB | 20–27B | gpt-oss 20B, Gemma 4 26B-A4B, Qwen3.8 27B (tight fit, short context) |
+| 24–32 GB | 27–35B (recommended) | Qwen3.8 27B, Qwen3.6 35B-A3B, Gemma 4 31B, Nemotron 3.5 Bolt 74B-A9B (its 24 GB build) |
+| 48 GB and up | 70B+ (best) | Nemotron 3.5 Bolt 74B-A9B, gpt-oss 120B, Qwen3.8 Flash-Next (180B, multi-GPU or big unified memory) |
 
-These are examples, not endorsements: newer releases of these families generally work better
-still. Whatever you pick, run **Test emails → Run included samples** first. It should flag the
+Current as of **October 2026**. Names like `35B-A3B` are mixture-of-experts models: big on disk but
+quick to run, which suits sorting thousands of emails. Sizes are approximate for 4-bit
+quantisations; leave a few GB spare for context (KeepSift uses roughly 4–12K tokens per request).
+These are examples, not endorsements, and newer releases keep arriving. Check the model card for
+the exact quantisation and license before downloading.
+
+Whatever you pick, run **Test emails → Run included samples** first. It should flag the
 phishing and prompt-injection samples as suspicious, and keep the product-key and Steam-code ones.
 
 ## Before you clean anything

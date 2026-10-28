@@ -214,8 +214,8 @@ class SetupWizard(tk.Toplevel):
         ttk.Label(self.body, text="Leave the model blank to use the first one the server offers.",
                   style="Help.TLabel").pack(anchor="w", pady=(2, 0))
         ttk.Label(self.body, style="Warn.TLabel", wraplength=620, justify="left", text=(
-            "Bigger models judge emails much more reliably. 14B+ parameters is recommended, 7B the minimum; "
-            "below that, use cleanup with the model check off and review everything yourself.")
+            "Bigger models judge emails much more reliably: around 27B or more is recommended (24 GB GPU), "
+            "9B the minimum. Below that, use cleanup with the model check off and review everything yourself.")
                   ).pack(anchor="w", pady=(8, 0))
         row = ttk.Frame(self.body)
         row.pack(anchor="w", pady=(14, 0))
