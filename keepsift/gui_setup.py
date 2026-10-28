@@ -145,10 +145,15 @@ class SetupWizard(tk.Toplevel):
                     "or server. Your email is never sent to a cloud AI.")
         for line in ("Clean up thousands of old promotions, social and update emails, sender by sender.",
                      "A safety net keeps anything with product keys, activation links, codes, receipts or "
-                     "attachments, no matter what.",
+                     "attachments.",
                      "Sort new mail, flag phishing, and draft replies for you to review."):
             ttk.Label(self.body, text="✓  " + line, wraplength=600, justify="left").pack(anchor="w", pady=4)
-        ttk.Label(self.body, text="Setup takes about two minutes.", style="Help.TLabel").pack(anchor="w", pady=(18, 0))
+        ttk.Label(self.body, style="Warn.TLabel", wraplength=620, justify="left", text=(
+            "⚠  KeepSift can delete email. Local AI models, especially small ones, make mistakes, and the safety "
+            "net lowers the risk without removing it. Start with the 'To Delete' label, preview first, and keep a "
+            "backup. KeepSift is provided as is, with no warranty and no liability for lost or deleted email.")
+                  ).pack(anchor="w", pady=(18, 0))
+        ttk.Label(self.body, text="Setup takes about two minutes.", style="Help.TLabel").pack(anchor="w", pady=(12, 0))
 
     def page_gmail(self):
         self._title("Connect Gmail",
@@ -205,6 +210,10 @@ class SetupWizard(tk.Toplevel):
         self.model_box.pack(anchor="w")
         ttk.Label(self.body, text="Leave the model blank to use the first one the server offers.",
                   style="Help.TLabel").pack(anchor="w", pady=(2, 0))
+        ttk.Label(self.body, style="Warn.TLabel", wraplength=620, justify="left", text=(
+            "Bigger models judge emails much more reliably. 14B+ parameters is recommended, 7B the minimum; "
+            "below that, use cleanup with the model check off and review everything yourself.")
+                  ).pack(anchor="w", pady=(8, 0))
         row = ttk.Frame(self.body)
         row.pack(anchor="w", pady=(14, 0))
         ttk.Button(row, text="Test this address", command=self.test_model).pack(side="left")

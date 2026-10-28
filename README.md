@@ -13,6 +13,11 @@
   <img src="docs/cleanup-dark.png" width="860" alt="KeepSift cleanup screen">
 </p>
 
+> [!WARNING]
+> **KeepSift deletes email. Read [Before you clean anything](#before-you-clean-anything) first.**
+> Small local models make mistakes, and the safety net lowers the risk without removing it.
+> KeepSift comes with **no warranty and no liability for lost or deleted email**.
+
 ## Why
 
 Gmail already splits mail into Promotions, Social and Updates, but years of it pile up into tens
@@ -87,9 +92,47 @@ KeepSift talks to any **OpenAI-compatible** endpoint, on the same PC or elsewher
 | vLLM and others | `http://localhost:8000/v1` |
 
 It uses JSON-schema structured output (`response_format`), so the server needs to support that.
-An instruction-tuned model of roughly 7B parameters or more works best. Development was done
-against a Qwen-family model on a llama.cpp-style server; other servers should work but are less
-tested.
+Development was done against a Qwen-family model on a llama.cpp-style server. Other servers and
+models should work but are less tested.
+
+### Which model? Size matters
+
+The model decides what each email is, whether it's worth keeping, and what a reply should say.
+**Small models are noticeably worse at all three.** They misread emails, miss things worth
+keeping, and follow instructions hidden in emails more easily. Bigger and newer is safer.
+
+| Your GPU memory | Size to aim for | Example models (instruction-tuned, ~4-bit quantised) |
+|---|---|---|
+| under 8 GB | not recommended | Below ~7B parameters, use cleanup with the model check **off** (rules only) and review everything yourself |
+| 8–12 GB | 7–14B (minimum) | Qwen3 8B, Llama 3.1 8B Instruct, Gemma 3 12B |
+| 16–24 GB | 14–32B (recommended) | Qwen3 14B, Qwen3 30B-A3B, Mistral Small 3.2 24B, Gemma 3 27B, gpt-oss 20B |
+| 32 GB and up | 30B+ (best) | Qwen3 32B, larger Qwen MoE models, Llama 3.3 70B |
+
+These are examples, not endorsements: newer releases of these families generally work better
+still. Whatever you pick, run **Test emails → Run included samples** first. It should flag the
+phishing and prompt-injection samples as suspicious, and keep the product-key and Steam-code ones.
+
+## Before you clean anything
+
+- **Nothing here is perfect.** The keyword and link rules catch the common cases (keys, codes,
+  activation links, receipts), but an important email that matches none of them, judged wrong by
+  the model, can be removed.
+- **Start with "Label 'To Delete'"**, not Trash, and look through the label in Gmail before deleting.
+- **Use "Preview only"** on a few senders first, and read what it would keep in the Activity tab.
+- **Trash is only a 30-day safety net.** Gmail permanently empties its Trash after 30 days, and
+  after that KeepSift can't bring anything back.
+- **Back up first** if your mail matters: [Google Takeout](https://takeout.google.com) can export
+  your whole mailbox.
+- **Watch the "Kept" list.** Every kept email has a reason in the Activity tab. If something
+  important was *removed*, add its sender or a word from it under Settings → Deletion so it's
+  protected next time.
+
+### No warranty, no liability
+
+KeepSift is free software provided **"as is", without warranty of any kind** (see [LICENSE](LICENSE)).
+You run it on your own mailbox at your own risk. **The authors and contributors are not liable for
+any lost, deleted, mislabelled or wrongly sent email**, or any other damage from using it. You are
+responsible for checking what it does, keeping backups, and choosing settings that suit you.
 
 ## How cleanup decides
 

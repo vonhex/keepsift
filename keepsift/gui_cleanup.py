@@ -183,7 +183,9 @@ class CleanupPanel(ttk.Frame):
                 f"{len(items):,} emails from {len(sel):,} senders.\n\nThis will {what}.\n"
                 f"Protected emails are kept and labelled.\n\nRough time: {max(1, round(mins)):,} min "
                 f"({'with' if use_model else 'without'} the model double-check). You can Stop any time and "
-                f"continue later.\n\nGo ahead?")):
+                f"continue later.\n\nThe safety net and model can still get things wrong, and Gmail empties "
+                f"Trash permanently after 30 days. KeepSift comes with no warranty and no liability for "
+                f"deleted email.\n\nGo ahead?")):
             return
         self.app.nb.select(self.app.tab_activity)
         self.bar.configure(maximum=len(items), value=0)
