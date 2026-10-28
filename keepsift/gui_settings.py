@@ -193,6 +193,9 @@ PAGES = {
         ("watch.quiet_start", "Quiet hours from (HH:MM)", "str",
          "Watch skips runs between these times, e.g. 22:00 to 07:00. Leave both blank to always run."),
         ("watch.quiet_end", "Quiet hours until (HH:MM)", "str", ""),
+        ("watch.autostart", "Start watching automatically when KeepSift opens", "bool",
+         "For a server or Unraid container: sorting resumes on its own after a restart, without the "
+         "'Sort for real?' question. Only turn this on once you trust your settings."),
     ],
 }
 

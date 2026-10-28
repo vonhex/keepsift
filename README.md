@@ -86,6 +86,19 @@ Either way, a short setup wizard opens on first launch:
 Then open **Cleanup**, click **Scan inbox**, pick some obvious junk senders, tick
 **Preview only**, and see what KeepSift would keep before running it for real.
 
+**Option C: Docker / Unraid.** KeepSift also runs as a container and opens in your browser:
+
+```
+docker run -d --name keepsift -p 5880:5800   -v /path/to/keepsift-config:/config   -e KEEPSIFT_MODEL_URL=http://192.168.1.20:8080/v1   ghcr.io/vonhex/keepsift:latest
+```
+
+Then open `http://<host>:5880`. Unraid users can install it from the KeepSift template in
+[vonhex/unraid-templates](https://github.com/vonhex/unraid-templates). In a container `localhost` is
+the container itself, so give your model server's LAN address. Everything is stored in `/config`.
+Because that includes your Gmail app password, turn on the web login (`WEB_AUTHENTICATION=1` with
+`WEB_AUTHENTICATION_USERNAME` / `WEB_AUTHENTICATION_PASSWORD`) if anyone else can reach the port.
+To keep sorting after restarts, tick **Settings → Schedule → Start watching automatically**.
+
 ### Your model server
 
 KeepSift talks to any **OpenAI-compatible** endpoint, on the same PC or elsewhere on your network:

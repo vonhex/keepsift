@@ -70,6 +70,12 @@ class App:
         root.after(300, self.check_model_quietly)
         if not config.is_configured():
             root.after(400, self.open_setup)
+        else:
+            try:
+                if config.load()["watch"]["autostart"]:
+                    root.after(1500, lambda: self.toggle_watch(confirm=False))
+            except BaseException:
+                pass
 
     # ---------- layout ----------
 
@@ -177,8 +183,9 @@ class App:
         row = ttk.Frame(tab)
         row.pack(fill="x", pady=(8, 0))
         ttk.Button(row, text="Clear", command=lambda: self._clear(self.activity)).pack(side="left")
-        ttk.Button(row, text="Open full log", command=lambda: os.startfile(ACTIVITY_LOG)
-                   if ACTIVITY_LOG.exists() else None).pack(side="left", padx=8)
+        if hasattr(os, "startfile"):  # Windows only; in a container the log is in the appdata folder
+            ttk.Button(row, text="Open full log", command=lambda: os.startfile(ACTIVITY_LOG)
+                       if ACTIVITY_LOG.exists() else None).pack(side="left", padx=8)
 
     def _build_history(self):
         tab = ttk.Frame(self.nb, padding=(6, 12))
@@ -416,11 +423,11 @@ class App:
             agent.run(cfg, LLM(cfg["llm"], self.cancel), Store(DB), g, dry, report=self.log, cancel=self.cancel)
         self.q.put(("history", None))
 
-    def toggle_watch(self):
+    def toggle_watch(self, confirm=True):
         if self.watch_stop:
             self.stop()
             return
-        if self.busy or not self._confirm_live():
+        if self.busy or (confirm and not self._confirm_live()):
             return
         try:
             minutes = max(1, int(self.interval.get()))

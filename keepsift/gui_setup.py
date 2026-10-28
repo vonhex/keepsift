@@ -1,5 +1,6 @@
 """First-run setup wizard: Gmail login, local model, your name. Opens automatically until Gmail is set up."""
 import os
+import sys
 import threading
 import tkinter as tk
 import webbrowser
@@ -105,6 +106,8 @@ class SetupWizard(tk.Toplevel):
         return e
 
     def _link(self, parent, text, url):
+        if sys.platform != "win32":  # e.g. in a container there's no browser to open: show the address
+            text = url.replace("https://", "")
         lab = ttk.Label(parent, text=text, style="Link.TLabel", cursor="hand2")
         lab.bind("<Button-1>", lambda e: webbrowser.open(url))
         return lab

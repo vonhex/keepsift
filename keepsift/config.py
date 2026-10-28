@@ -6,7 +6,11 @@ import sys
 import tomllib
 from pathlib import Path
 
-if getattr(sys, "frozen", False):  # packaged .exe: settings and data in %LOCALAPPDATA%\KeepSift
+if os.environ.get("KEEPSIFT_HOME"):  # container (e.g. Unraid): settings and data in a mounted folder
+    ROOT = Path(os.environ["KEEPSIFT_HOME"])
+    ROOT.mkdir(parents=True, exist_ok=True)
+    BUNDLE = Path(__file__).resolve().parent.parent
+elif getattr(sys, "frozen", False):  # packaged .exe: settings and data in %LOCALAPPDATA%\KeepSift
     ROOT = Path(os.environ.get("LOCALAPPDATA", Path.home())) / "KeepSift"
     ROOT.mkdir(parents=True, exist_ok=True)
     BUNDLE = Path(getattr(sys, "_MEIPASS", Path(sys.executable).parent))  # bundled icon, samples
@@ -30,7 +34,7 @@ DEFAULTS = {
         "max_fetch_mb": 3,
     },
     "llm": {
-        "base_url": "http://localhost:8080/v1",
+        "base_url": os.environ.get("KEEPSIFT_MODEL_URL") or "http://localhost:8080/v1",  # env: Docker/Unraid
         "model": "",  # blank = first model the server lists
         "api_key": "",
         "classify_effort": "low",
@@ -105,7 +109,7 @@ DEFAULTS = {
         "batch_size": 40,
         "label_kept": True,
     },
-    "watch": {"interval_minutes": 5, "quiet_start": "", "quiet_end": ""},
+    "watch": {"interval_minutes": 5, "quiet_start": "", "quiet_end": "", "autostart": False},
     "category": [],
     "rule": [],
 }

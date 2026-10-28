@@ -1,0 +1,14 @@
+.git
+.github
+.venv
+.build-venv
+build
+dist
+data
+docs
+tests
+gmailmgr
+.env
+config.toml
+*.spec
+**/__pycache__
