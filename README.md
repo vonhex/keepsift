@@ -75,6 +75,9 @@ You need two things: **Windows 10/11** and **a local AI model server** (see belo
 It installs Python if needed, sets everything up, adds Desktop and Start-menu shortcuts and opens
 KeepSift.
 
+**Option C: Unraid or Docker.** Run it on your server and use it from any browser. See
+[Unraid](#unraid) and [Docker](#docker-any-host) below.
+
 Either way, a short setup wizard opens on first launch:
 
 1. **Connect Gmail.** Create a Gmail [app password](https://myaccount.google.com/apppasswords)
@@ -86,18 +89,68 @@ Either way, a short setup wizard opens on first launch:
 Then open **Cleanup**, click **Scan inbox**, pick some obvious junk senders, tick
 **Preview only**, and see what KeepSift would keep before running it for real.
 
-**Option C: Docker / Unraid.** KeepSift also runs as a container and opens in your browser:
+### Unraid
+
+KeepSift runs as a Docker container and opens in your browser: the same app, wizard and settings.
+
+**Install**
+
+1. **Add the template.** Pick one way:
+   - **Template repository:** in the **Docker** tab, scroll to **Template repositories** at the
+     bottom, add `https://github.com/vonhex/unraid-templates` on its own line and click **Save**.
+   - **Or download it directly** from the Unraid terminal:
+     ```
+     wget -O /boot/config/plugins/dockerMan/templates-user/my-KeepSift.xml \
+       https://raw.githubusercontent.com/vonhex/unraid-templates/main/KeepSift.xml
+     ```
+2. **Docker → Add Container**, open the **Template** list and choose **KeepSift** (it's listed as
+   `my-KeepSift` if you used `wget`).
+3. **Fill in:**
+   - **Model Server URL**: your model server's **LAN address**, ending in `/v1`, e.g.
+     `http://192.168.1.20:8080/v1`. Inside a container, `localhost` is the container itself, so
+     `localhost` won't work even if the model runs on the same Unraid box.
+   - **Web Login**: set to `1` and choose a **username** and **password** if anyone else can reach
+     your server. KeepSift stores your Gmail app password in App Data.
+   - **Web UI Port** (default `5880`) and **App Data** (default `/mnt/user/appdata/keepsift/`)
+     are fine for most setups.
+4. Click **Apply**, wait for the image to download, then click the KeepSift icon → **WebUI**.
+
+**First run**
+
+5. The setup wizard opens in the browser tab:
+   - **Gmail:** create a Gmail [app password](https://myaccount.google.com/apppasswords) on any
+     device, then enter it with your address. To paste text into the app, use the clipboard box in
+     the web UI's side panel (the small handle on the left edge of the page).
+   - **Model:** it should already show your server; click **Test this address**.
+   - **About you:** your name and sign-off.
+6. Go to **Cleanup → Scan inbox**, pick some junk senders, tick **Preview only**, and check what it
+   would keep before running it for real. See [Before you clean anything](#before-you-clean-anything).
+7. To keep sorting new mail around the clock, tick **Settings → Schedule → Start watching
+   automatically**, and it resumes by itself after restarts.
+
+**Updating and removing**
+
+- **Update:** Docker tab → **Check for Updates** → **apply update** on KeepSift. Settings and
+  history are kept in App Data.
+- **Remove:** delete the container, then delete `/mnt/user/appdata/keepsift/`, which holds your
+  Gmail app password. You can also revoke the app password in your Google account.
+
+**Advanced settings** (click **Show more settings** in the template): a VNC port for VNC clients,
+https (`SECURE_CONNECTION`), the app's screen size, a dark frame, and the user/group IDs
+(defaults `99`/`100`).
+
+### Docker (any host)
 
 ```
-docker run -d --name keepsift -p 5880:5800   -v /path/to/keepsift-config:/config   -e KEEPSIFT_MODEL_URL=http://192.168.1.20:8080/v1   ghcr.io/vonhex/keepsift:latest
+docker run -d --name keepsift -p 5880:5800 \
+  -v /path/to/keepsift-config:/config \
+  -e KEEPSIFT_MODEL_URL=http://192.168.1.20:8080/v1 \
+  ghcr.io/vonhex/keepsift:latest
 ```
 
-Then open `http://<host>:5880`. Unraid users can install it from the KeepSift template in
-[vonhex/unraid-templates](https://github.com/vonhex/unraid-templates). In a container `localhost` is
-the container itself, so give your model server's LAN address. Everything is stored in `/config`.
-Because that includes your Gmail app password, turn on the web login (`WEB_AUTHENTICATION=1` with
-`WEB_AUTHENTICATION_USERNAME` / `WEB_AUTHENTICATION_PASSWORD`) if anyone else can reach the port.
-To keep sorting after restarts, tick **Settings → Schedule → Start watching automatically**.
+Then open `http://<host>:5880`. Everything is stored in `/config`. Add
+`-e WEB_AUTHENTICATION=1 -e WEB_AUTHENTICATION_ALLOW_INSECURE=1 -e WEB_AUTHENTICATION_USERNAME=... -e WEB_AUTHENTICATION_PASSWORD=...`
+to put a login in front of it.
 
 ### Your model server
 
