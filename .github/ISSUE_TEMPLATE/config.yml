@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security problem privately
+    url: https://github.com/vonhex/keepsift/security/advisories/new
+    about: Leaked credentials or email content, auto-send bypass, tampered builds. Please don't open a public issue.

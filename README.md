@@ -10,6 +10,12 @@
 </p>
 
 <p align="center">
+  <a href="../../releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/vonhex/keepsift"></a>
+  <a href="../../actions/workflows/tests.yml"><img alt="Tests" src="https://github.com/vonhex/keepsift/actions/workflows/tests.yml/badge.svg"></a>
+  <a href="LICENSE"><img alt="License: PolyForm Noncommercial" src="https://img.shields.io/badge/license-PolyForm%20Noncommercial%201.0.0-blue"></a>
+</p>
+
+<p align="center">
   <img src="docs/cleanup-dark.png" width="860" alt="KeepSift cleanup screen">
 </p>
 
@@ -129,7 +135,7 @@ phishing and prompt-injection samples as suspicious, and keep the product-key an
 
 ### No warranty, no liability
 
-KeepSift is free software provided **"as is", without warranty of any kind** (see [LICENSE](LICENSE)).
+KeepSift is provided free of charge, **"as is", without warranty of any kind** (see [LICENSE](LICENSE)).
 You run it on your own mailbox at your own risk. **The authors and contributors are not liable for
 any lost, deleted, mislabelled or wrongly sent email**, or any other damage from using it. You are
 responsible for checking what it does, keeping backups, and choosing settings that suit you.
@@ -178,6 +184,17 @@ KeepSift.bat log -n 30                  # what was done and why
 `build_exe.bat` produces `dist\KeepSift.exe` with PyInstaller. Pushing a `v*` tag builds it on
 GitHub Actions and attaches it to a release.
 
+## Contributing and security
+
+Bug reports and safety-net examples are very welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) and the
+[Code of Conduct](CODE_OF_CONDUCT.md). Please report security problems privately, as described in
+[SECURITY.md](SECURITY.md). Changes are listed in [CHANGELOG.md](CHANGELOG.md).
+
 ## License
 
-MIT. See [LICENSE](LICENSE).
+[PolyForm Noncommercial License 1.0.0](LICENSE). **Free to use, copy and modify for any
+non-commercial purpose**: personal use, hobby projects, research, charities, schools and public
+bodies. **Not for sale and not for commercial use**: you may not sell KeepSift, charge for it, or
+use it in or for a paid product or service. Because of that it's "source-available" rather than
+OSI open source. Versions v1.0.0 and v1.0.1 were released under MIT; copies of those you already
+have keep those terms.
