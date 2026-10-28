@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## v1.1.0
 
 - License changed from MIT to the **PolyForm Noncommercial License 1.0.0**: free for any
   non-commercial use; selling KeepSift or using it in a paid product isn't allowed. Copies already
