@@ -1,0 +1,1 @@
+sv-ttk==2.6.1  # Windows 11 look; the app still runs without it

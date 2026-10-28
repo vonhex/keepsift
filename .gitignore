@@ -1,0 +1,16 @@
+# Your secrets, settings and mail data: never commit
+.env
+config.toml
+data/
+
+# Environments and builds
+.venv/
+.build-venv/
+build/
+dist/
+*.spec
+__pycache__/
+*.pyc
+
+# Old package name (before the KeepSift rename)
+gmailmgr/
